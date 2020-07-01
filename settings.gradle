@@ -1,0 +1,3 @@
+include ':hilt'
+include ':origin'
+rootProject.name = "ViewModel Hilt Injection"
