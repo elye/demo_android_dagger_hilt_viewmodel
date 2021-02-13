@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import kotlinx.android.synthetic.main.activity_main.*
+import com.elyeproj.origin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,13 +15,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val textDataObserver =
-        Observer<String> { data -> text_view.text = data }
+        Observer<String> { data -> binding.textView.text = data }
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         viewModel.showTextDataNotifier.observe(this, textDataObserver)
-        btn_fetch.setOnClickListener { viewModel.fetchValue() }
+        binding.btnFetch.setOnClickListener { viewModel.fetchValue() }
     }
 }
 

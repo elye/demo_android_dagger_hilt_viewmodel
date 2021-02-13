@@ -4,12 +4,11 @@ import android.app.Application
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.elyeproj.hilt.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.android.synthetic.main.activity_main.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -21,19 +20,25 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MyViewModel by viewModels()
 
     private val textDataObserver =
-        Observer<String> { data -> text_view.text = data }
+        Observer<String> { data -> binding.textView.text = data }
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         viewModel.showTextDataNotifier.observe(this, textDataObserver)
-        btn_fetch.setOnClickListener { viewModel.fetchValue() }
+
+        binding.btnFetch.setOnClickListener { viewModel.fetchValue() }
     }
 }
 
-class MyViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyViewModel @Inject constructor(
     private val repository: Repository,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 
     companion object {
