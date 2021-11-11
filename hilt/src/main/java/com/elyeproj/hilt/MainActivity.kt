@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 @HiltViewModel
 class MyViewModel @Inject constructor(
     private val repository: Repository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 
     companion object {
