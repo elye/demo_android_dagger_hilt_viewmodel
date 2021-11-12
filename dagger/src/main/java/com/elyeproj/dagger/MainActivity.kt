@@ -2,7 +2,6 @@ package com.elyeproj.dagger
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
@@ -31,14 +30,12 @@ class MainActivity : AppCompatActivity() {
         mainComponent.activityViewModelComponentBuilder()
             .componentActivity(this).build().inject(this)
 
-        Log.d("Elisha", "$viewModel")
-
         viewModel.showTextDataNotifier.observe(this, textDataObserver)
         binding.btnFetch.setOnClickListener { viewModel.fetchValue() }
     }
 }
 
-class MainApplication: Application() {
+class MainApplication : Application() {
     companion object {
         val mainComponent: MainComponent by lazy {
             DaggerMainComponent.create()
@@ -61,8 +58,10 @@ class ActivityViewModelModule {
     @ActivityScope
     fun provideMyViewModel(activity: ComponentActivity, repository: Repository):
             MyViewModel {
-        return ViewModelProvider(activity.viewModelStore,
-            MyViewModelFactory(activity, repository, activity.intent.extras))
+        return ViewModelProvider(
+            activity.viewModelStore,
+            MyViewModelFactory(activity, repository, activity.intent.extras)
+        )
             .get(MyViewModel::class.java)
     }
 }
@@ -86,7 +85,8 @@ class MyViewModelFactory(
     private val repository: Repository,
     defaultArgs: Bundle? = null
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
-    override fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle
+    override fun <T : ViewModel> create(
+        key: String, modelClass: Class<T>, handle: SavedStateHandle
     ): T {
         return MyViewModel(
             repository, handle
@@ -103,8 +103,7 @@ class MyViewModel(
         const val KEY = "KEY"
     }
 
-    private val showTextLiveData
-            = savedStateHandle.getLiveData<String>(KEY)
+    private val showTextLiveData = savedStateHandle.getLiveData<String>(KEY)
 
     val showTextDataNotifier: LiveData<String>
         get() = showTextLiveData
