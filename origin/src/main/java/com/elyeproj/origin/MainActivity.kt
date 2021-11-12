@@ -44,7 +44,7 @@ class MyViewModelFactory(
 
 class MyViewModel(
     private val repository: Repository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 
     companion object {
