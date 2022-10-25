@@ -3,3 +3,4 @@ include ':origin'
 include ':dagger'
 rootProject.name = "ViewModel Hilt Injection"
 include ':compose-hilt'
+include ':mvp'

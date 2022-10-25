@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/compose-hilt" />
             <option value="$PROJECT_DIR$/dagger" />
             <option value="$PROJECT_DIR$/hilt" />
+            <option value="$PROJECT_DIR$/mvp" />
             <option value="$PROJECT_DIR$/origin" />
           </set>
         </option>
