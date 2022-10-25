@@ -49,7 +49,7 @@ interface MainComponent {
 }
 
 @Scope
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityScope
 
 @Module
@@ -61,8 +61,7 @@ class ActivityViewModelModule {
         return ViewModelProvider(
             activity.viewModelStore,
             MyViewModelFactory(activity, repository, activity.intent.extras)
-        )
-            .get(MyViewModel::class.java)
+        )[MyViewModel::class.java]
     }
 }
 
