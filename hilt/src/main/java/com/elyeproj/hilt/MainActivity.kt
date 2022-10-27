@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 class MyViewModel @Inject constructor(
     private val repository: Repository,
     savedStateHandle: SavedStateHandle
-) : ViewModel(), LifecycleObserver {
+) : ViewModel() {
 
     companion object {
         const val KEY = "KEY"
