@@ -31,13 +31,11 @@ class MainActivity : AppCompatActivity(), MainView {
         textView = findViewById(R.id.text_view)
         MainApplication.mainComponent.activityComponent.inject(presenter)
 
-        setText(
-            if (savedInstanceState == null) {
-                intent.extras?.getString(KEY)
-            } else {
-                savedInstanceState.getString(KEY)
-            } ?: ""
-        )
+        if (savedInstanceState == null) {
+            setText(intent.extras?.getString(KEY))
+        } else {
+            setText(savedInstanceState.getString(KEY))
+        }
 
         button.setOnClickListener {
             presenter.fetchValue()
@@ -49,7 +47,7 @@ class MainActivity : AppCompatActivity(), MainView {
         outState.putString(KEY, textView.text.toString())
     }
 
-    override fun setText(text: String) {
+    override fun setText(text: String?) {
         textView.text = text
     }
 }
@@ -63,7 +61,7 @@ class MainApplication : Application() {
 }
 
 interface MainView {
-    fun setText(text: String)
+    fun setText(text: String?)
 }
 
 class MainPresenter(private val view: MainView) {
